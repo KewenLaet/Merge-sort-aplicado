@@ -1,0 +1,4 @@
+Espírito_Santo 779 16 291 3 488 13
+Minas_Gerais 306 21 1158 20 852 1
+Rio_de_Janeiro 104 3 707 4 603 1
+São_Paulo 400 48 1189 13 789 35
