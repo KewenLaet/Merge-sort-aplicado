@@ -1,0 +1,9 @@
+Alagoas 9 0 10 0 1 0
+Bahia 123 3 285 3 162 0
+Ceará 13 1 14 0 1 1
+Maranhão 43 0 12 0 31 0
+Paraíba 2 0 5 1 3 1
+Pernambuco 8 0 15 0 7 0
+Piauí 8 0 27 0 19 0
+Rio_Grande_do_Norte 10 0 12 0 2 0
+Sergipe 9 2 6 0 3 2
