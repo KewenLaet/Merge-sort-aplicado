@@ -21,5 +21,9 @@ typedef struct escolhas{
 }tipoEscolha;
 
 void lerDados(dadosDengue *tabelaRegiao, char *filepath, int qntUF);
+//void escreverDados(); -> escrever os dados do vetor de volta no arquivo dadosOrdenados.txt
+//void exibirDados(); -> pode ser feito lendo o proprio vetor struct ou lendo o arquivo diretamente
+int pegarDadosDeReg(int reg, char *caminho);
+
 
 #endif

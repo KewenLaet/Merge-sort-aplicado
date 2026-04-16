@@ -13,7 +13,8 @@ void lerDados(dadosDengue *tabelaRegiao, char *filepath, int qntUF){
     int n = 0, Gr23, Ob23, Gr24, Ob24, DIFF_Gr, DIFF_Ob;
     char reg[15], UF[3];
 
-    while(fscanf(fp, "%[^\n] %[^\n] %d %d %d %d %d %d", reg, UF, &Gr23, &Ob23, &Gr24, &Ob24, &DIFF_Gr, &DIFF_Ob) == 8 && n < qntUF){
+    // possivelmente trocar o espaco por algum outro caractere como marcacao entre uma coluna e a outra, requeriria obviamente mudanca nos txt
+    while(fscanf(fp, "%[^\n] %d %d %d %d %d %d", UF, &Gr23, &Ob23, &Gr24, &Ob24, &DIFF_Gr, &DIFF_Ob) == 7 && n < qntUF){
         strncpy(tabelaRegiao[n].regiao, reg, 14);
         tabelaRegiao[n].regiao[14] = '\0';
         strncpy(tabelaRegiao[n].UF, UF, 2);
@@ -28,4 +29,16 @@ void lerDados(dadosDengue *tabelaRegiao, char *filepath, int qntUF){
     }
 
     fpclose(fp);
+}
+//void escreverDados(); -> descricao no arquivo dadosDengue.h
+//void exibirDados(); -> descricao no arquivo dadosDengue.h
+
+int pegarDadosDeReg(int reg, char *caminho){
+    const int ufRegiao[]= { 4, 9, 7, 4, 3 };
+    char const caminhoPt2[15][5]= { "dengueCentroOeste", "dengueNordeste", "dengueNorte", "dengueSudeste", "dengueSul" };
+
+    strcpy(caminho, "./Arquivo das regiões/");
+    strcat(caminho, caminhoPt2[reg]);
+
+    return ufRegiao[reg-1];
 }
