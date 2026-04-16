@@ -19,8 +19,6 @@ dengue.txt
 #include "dadosDengue.h"
 #include "ordenar.h"
 
-int pegarDadosDeReg(int reg, char *caminho);
-
 int main (void){
     tipoEscolha op;
 
@@ -38,6 +36,11 @@ int main (void){
     op.qntUF = pegarDadosDeReg(op.reg, op.path);
 
     tabelaRegiao = (dadosDengue *) calloc(op.qntUF, sizeof(dadosDengue));
+
+    if (tabelaRegiao == NULL){
+        printf("\nFalha na alocacao de memoria.");
+        return 1;
+    }
 
     do{
         printf("\nEscolha o tipo de ordenacao: ");
@@ -57,30 +60,11 @@ int main (void){
                 "\n[2] Decrescente\n- ");
     } while(op.modo < 1 || op.modo > 2);
 
-    switch (op.tipo){
-        case 1:
-
-        break;
-        case 2:
-
-        break;
-        case 3:
-
-        break;
-        case 4:
-
-        break;
-        case 5:
-
-        break;
-        case 6:
-
-        break;
-        case 7:
-
-        break;
-        default:
-            printf("\nInvalido!\n");
+    if (op.tipo == 1){ 
+        //escolhaOrdenarChar(tabelaRegiao, tipoEscolha op);
+    }
+    else {
+        escolhaOrdenarInt(tabelaRegiao, op);
     }
 
     // lembrar de liberar memoria
@@ -90,31 +74,4 @@ int main (void){
     while((getchar()) != '\n');
     getchar();
     return 0;
-}
-
-int pegarDadosDeReg(int reg, char* caminho){
-    switch (reg){
-    case 1:
-        strcpy(caminho, './Arquivo das regiões/dengueSul.txt');
-        return 4;
-    break;
-    case 2:
-        strcpy(caminho, './Arquivo das regiões/dengueSul.txt');
-        return 9;
-    break;
-    case 3:
-        strcpy(caminho, './Arquivo das regiões/dengueSul.txt');
-        return 7;
-    break;
-    case 4:
-        strcpy(caminho, './Arquivo das regiões/dengueSul.txt');
-        return 4;
-    break;
-    case 5:
-        strcpy(caminho, './Arquivo das regiões/dengueSul.txt');
-        return 3;
-    break;
-    default:
-        printf("\nInvalido!\n");
-    }
 }
