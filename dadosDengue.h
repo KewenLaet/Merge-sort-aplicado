@@ -18,6 +18,7 @@ typedef struct escolhas{
     int reg;
     int qntUF;
     char *path;
+    char *finalPath;
 }tipoEscolha;
 
 void lerDados(dadosDengue *tabelaRegiao, char *filepath, int qntUF);
