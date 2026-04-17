@@ -15,8 +15,6 @@ void lerDados(dadosDengue *tabelaRegiao, char *filepath, int qntUF){
 
     // possivelmente trocar o espaco por algum outro caractere como marcacao entre uma coluna e a outra, requeriria obviamente mudanca nos txt
     while(fscanf(fp, "%[^;];%d;%d;%d;%d;%d;%d", UF, &Gr23, &Ob23, &Gr24, &Ob24, &DIFF_Gr, &DIFF_Ob) == 7 && n < qntUF){
-        strncpy(tabelaRegiao[n].regiao, reg, 14);
-        tabelaRegiao[n].regiao[14] = '\0';
         strncpy(tabelaRegiao[n].UF, UF, 2);
         tabelaRegiao[n].UF[2] = '\0';
         tabelaRegiao[n].graves23 = Gr23;
