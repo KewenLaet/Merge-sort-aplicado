@@ -14,9 +14,7 @@ void lerDados(dadosDengue *tabelaRegiao, char *filepath, int qntUF){
     char reg[15], UF[3];
 
     // possivelmente trocar o espaco por algum outro caractere como marcacao entre uma coluna e a outra, requeriria obviamente mudanca nos txt
-    while(fscanf(fp, "%[^\n] %d %d %d %d %d %d", UF, &Gr23, &Ob23, &Gr24, &Ob24, &DIFF_Gr, &DIFF_Ob) == 7 && n < qntUF){
-        strncpy(tabelaRegiao[n].regiao, reg, 14);
-        tabelaRegiao[n].regiao[14] = '\0';
+    while(fscanf(fp, "%[^;];%d;%d;%d;%d;%d;%d", UF, &Gr23, &Ob23, &Gr24, &Ob24, &DIFF_Gr, &DIFF_Ob) == 7 && n < qntUF){
         strncpy(tabelaRegiao[n].UF, UF, 2);
         tabelaRegiao[n].UF[2] = '\0';
         tabelaRegiao[n].graves23 = Gr23;
@@ -28,11 +26,30 @@ void lerDados(dadosDengue *tabelaRegiao, char *filepath, int qntUF){
         n++;
     }
 
-    fpclose(fp);
+    fclose(fp);
 }
-//void escreverDados(); -> descricao no arquivo dadosDengue.h
-//void exibirDados(); -> descricao no arquivo dadosDengue.h
+void escreverDados(dadosDengue *tabelaReg, tipoEscolha op, int qntUF){ //-> descricao no arquivo dadosDengue.h
+    FILE *arq = fopen("dadosOrdenados.txt", "w");
+    int i;
 
+    fprintf(arq, "Regiao: %s", tabelaReg[op.reg].regiao);
+
+    for(i=0 ; i<qntUF ; i++){
+        //No tipo que forem strings, passar o op escolhido pelo usuario no op.tipo
+        fprintf(arq, " | UF: %s | Graves 23: %d | Graves 24: %d | Obitos 23: %d | Obitos 24: %d | DifGraves: %d | DifObitos: %d\n",
+         tabelaReg[i].UF, tabelaReg[i].graves23, tabelaReg[i].graves24,
+         tabelaReg[i].obitos23, tabelaReg[i].obitos24,
+         tabelaReg[i].difGraves, tabelaReg[i].difObitos);
+        //(char *)25 <-> cast
+    }
+    //fprintf aqui -> abrir o fopen do txt vazio
+    //tabelaReg[i].uf -> graves23 -> obitos23...
+    fclose(arq);
+}
+/*void exibirDados(dadosDengue *tabelaReg, tipoEscolha op, int qntUF){ //-> descricao no arquivo dadosDengue.h
+
+
+}*/
 int pegarDadosDeReg(int reg, char *caminho){
     const int ufRegiao[]= { 4, 9, 7, 4, 3 };
     char const caminhoPt2[15][5]= { "dengueCentroOeste", "dengueNordeste", "dengueNorte", "dengueSudeste", "dengueSul" };
