@@ -2,7 +2,6 @@
 #define DADOSDENGUE_H
 
 typedef struct dados{
-    char regiao[15];
     char UF[3];
     int graves23;
     int obitos23;
@@ -17,8 +16,8 @@ typedef struct escolhas{
     int modo;
     int reg;
     int qntUF;
-    char *path;
-    char *finalpath;
+    char path[55];
+    char finalPath[22];
 }tipoEscolha;
 
 void lerDados(dadosDengue *tabelaRegiao, char *filepath, int qntUF);
