@@ -3,52 +3,74 @@
 #include <stdio.h>
 #include <string.h>
 
-// funcoes auxiliares (geralmente genéricas, atuam onde for necessario)
-
 
 // subfuncoes (servem a uma outra funcao)
-void criarVetorCopia(dadosDengue *tabelaReg, tipoEscolha op, int *vCopia){
-    int i;
-
-// O unico jeito de sumir com esse switch case que eu pensei foi usando algo como "vCopia[i] = tabelaReg[i].(&graves23 + 4)"
-// 4 sendo pro endereco de memoria de um inteiro ser somado a quantidade de vezes necessaria pra escolher especificamente o que eu quero, nem sei se faz sentido...
-
-    switch (op.tipo){
-        case 2:
-            for (i = 0; i < op.qntUF; i++){
-                vCopia[i] = tabelaReg[i].graves23;
-            }
-        break;
-        case 3:
-            for (i = 0; i < op.qntUF; i++){
-                vCopia[i] = tabelaReg[i].obitos23;
-            }
-        break;
-        case 4:
-            for (i = 0; i < op.qntUF; i++){
-                vCopia[i] = tabelaReg[i].graves24;
-            }
-        break;
-        case 5:
-            for (i = 0; i < op.qntUF; i++){
-                vCopia[i] = tabelaReg[i].obitos24;
-            }
-        break;
-        case 6:
-            for (i = 0; i < op.qntUF; i++){
-                vCopia[i] = tabelaReg[i].difGraves;
-            }
-        break;
-        case 7:
-            for (i = 0; i < op.qntUF; i++){
-                vCopia[i] = tabelaReg[i].difObitos;
-            }
-        break;
-        default:
-            printf("\nErro na funcao \"criarVetorCopia\"!\n");
-            return;
+void criarVetorCopia(dadosDengue *tabelaReg, int inicio, int fim, int tipo, int *vCopia){
+    int *pnt, i;
+    for (i = inicio; i <= fim; i++){
+        pnt = &tabelaReg[i].graves23 + (tipo-2)*4;
+        vCopia[i] = *pnt;
     }
 }
+void combinar(dadosDengue *tabela, tipoEscolha op, int *vCopia, int inicio, int meio, int fim){
+    int i = inicio;
+    int j = meio+1;
+    int k = 0;
+    dadosDengue aux[fim - inicio + 1];
+    // inicio = 0 | meio = 1 | fim = 3
+    while(i <= meio && j <= fim){
+        if (especificCompare(op, tabela, i, j)){
+            aux[k++] = tabela[i++];
+        }
+        else {
+            aux[k++] = tabela[j++];
+        }
+    }
+        
+    while(i <= meio){
+        aux[k++] = tabela[i++];
+    }
+    while(j <= fim){
+        aux[k++] = tabela[j++];
+    }
+
+    for (i = inicio, k = 0; i <= fim; i++, k++){
+        tabela[i] = aux[k];
+    }
+    if (op.tipo > 1){
+        criarVetorCopia(tabela, inicio, fim, op.tipo, vCopia);
+    }
+}
+int escificCompare(tipoEscolha op, dadosDengue *tabela, int *vCopia, int i, int j){
+    if (op.modo == 1){
+        if (op.tipo == 1){
+            return (strcmp(tabela[i].UF, tabela[j].UF) < 0) ? 1: 0;
+        }
+        else {
+            return (vCopia[i] < vCopia[j]) ? 1: 0;
+        }
+    }
+    else {
+        if (op.tipo == 1){
+            return (strcmp(tabela[i].UF, tabela[j].UF) > 0) ? 1: 0;
+        }
+        else {
+            return (vCopia[i] > vCopia[j]) ? 1: 0;
+        }
+    }
+}
+/*
+void switchCompare_string(int *iP, int *jP, int *kP){
+    if (strcmp(tabela[(*iP)].UF, tabela[(*jP)].UF) < 0){
+        aux[(*kP)++] = tabela[(*iP)++];
+    }
+    else {
+        aux[(*kP)++] = tabela[(*jP)++];
+    }
+}
+void switchCompare_int(){}
+*/
+/*
 void combinarChar(dadosDengue *tabela, int inicio, int meio, int fim){
     int i = inicio;
     int j = meio+1;
@@ -75,7 +97,6 @@ void combinarChar(dadosDengue *tabela, int inicio, int meio, int fim){
         tabela[i] = aux[k];
     }
 }
-/*
 void combinarInt(dadosDengue *tabela, int *vCopia, int inicio, int meio, int fim){
     int i = inicio;
     int j = meio+1;
@@ -115,11 +136,22 @@ void escolhaOrdenarInt(dadosDengue *tabelaReg, tipoEscolha op){
     //int *auxPrincipal= adress[?];
     int vCopia[op.qntUF];
 
-    criarVetorCopia(tabelaReg, op, vCopia);
+    criarVetorCopia(tabelaReg, 0, op.qntUF - 1, op.tipo, vCopia);
 
     //aplicar merge sort com as alteracoes especificas do metodo int na comparacao e troca
     //mergeInt(tabela, vCopia, 0, op.qntUF - 1);
 }
+///*
+void mergeSort(dadosDengue *tabela, tipoEscolha op, int *vCopia, int inicio, int fim){
+    if (inicio < fim){
+        int meio = inicio + (fim - inicio)/2;
+        mergeSort(tabela, op, vCopia, inicio, meio);
+        mergeSort(tabela, op, vCopia, meio+1, fim);
+        combinar(tabela, op, vCopia, inicio, meio, fim);
+    }
+}
+//*/
+/*
 void mergeChar(dadosDengue *tabela, int inicio, int fim){
     if (inicio < fim){
         int meio = inicio + (fim - inicio)/2;
@@ -128,7 +160,6 @@ void mergeChar(dadosDengue *tabela, int inicio, int fim){
         combinarChar(tabela, inicio, meio, fim);
     }
 }
-/*
 void mergeInt(dadosDengue *tabela, int *vCopia, int inicio, int fim){
     if (inicio < fim){
         int meio = inicio + (fim - inicio)/2;
