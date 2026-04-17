@@ -16,6 +16,8 @@ Objetivo final:
 dengue.txt
 */
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "dadosDengue.h"
 #include "ordenar.h"
 
@@ -54,7 +56,7 @@ int main (void){
                 "\n[6] Diferenca de casos graves"
                 "\n[7] Diferenca de obitos por dengue\n- ");
         scanf("%d", &op.tipo);
-    } while(op.tipo);
+    } while(op.tipo < 1 || op.tipo > 7);
     
     do{
         printf("\nComo sera ordenado?");
@@ -63,17 +65,22 @@ int main (void){
         scanf("%d", &op.modo);
     } while(op.modo < 1 || op.modo > 2);
 
-    if (op.tipo == 1){ 
-        //escolhaOrdenarChar(tabelaRegiao, tipoEscolha op);
-    }
-    else {
-        escolhaOrdenarInt(tabelaRegiao, op);
-    }
+    lerDados(tabelaRegiao, op.path, op.qntUF);
+
+    int vCopia[op.qntUF];
+    criarVetorCopia(tabelaRegiao, 0, op.qntUF - 1, op.tipo, vCopia);
+    mergeSort(tabelaRegiao, op, vCopia, 0, op.qntUF - 1);
+
+    escreverDados(tabelaRegiao, op, op.qntUF);
+
+    //exibirDados(eh so exibir, entao provavelmente so tabelaRegiao e tamanho deve dar, pelo menos no caso de exibir vetor));
+    //pessoalmente acho melhor se voce exibir direto do arquivo, ja que dessa forma voce ja pega formatado da forma correta la tlg
+    //decidido! exibe diretamente do arquivo (gato mandando joia)
 
     // lembrar de liberar memoria
     free(tabelaRegiao);
 
-    prinf("\n\nDigite Enter para sair...\n");
+    printf("\n\nDigite Enter para sair...\n");
     while((getchar()) != '\n');
     getchar();
     return 0;
