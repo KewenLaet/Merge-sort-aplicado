@@ -14,7 +14,7 @@ void lerDados(dadosDengue *tabelaRegiao, char *filepath, int qntUF){
     char reg[15], UF[3];
 
     // possivelmente trocar o espaco por algum outro caractere como marcacao entre uma coluna e a outra, requeriria obviamente mudanca nos txt
-    while(fscanf(fp, "%[^\n] %d %d %d %d %d %d", UF, &Gr23, &Ob23, &Gr24, &Ob24, &DIFF_Gr, &DIFF_Ob) == 7 && n < qntUF){
+    while(fscanf(fp, "%[^;];%d;%d;%d;%d;%d;%d", UF, &Gr23, &Ob23, &Gr24, &Ob24, &DIFF_Gr, &DIFF_Ob) == 7 && n < qntUF){
         strncpy(tabelaRegiao[n].regiao, reg, 14);
         tabelaRegiao[n].regiao[14] = '\0';
         strncpy(tabelaRegiao[n].UF, UF, 2);
@@ -30,7 +30,20 @@ void lerDados(dadosDengue *tabelaRegiao, char *filepath, int qntUF){
 
     fpclose(fp);
 }
-//void escreverDados(); -> descricao no arquivo dadosDengue.h
+void escreverDados(dadosDengue *tabelaReg, tipoEscolha op){ //-> descricao no arquivo dadosDengue.h
+    FILE *arq = fopen("dadosOrdenados.txt", "w");
+    int i;
+    for(i=0 ; i<qntUF ; i++){
+        //No tipo que forem strings, passar o op escolhido pelo usuario no op.tipo
+        fprintf(arq, tabelaReg[op.reg].regiao);
+        (char *)25
+    }
+    //fprintf aqui -> abrir o fopen do txt vazio
+    //tabelaReg[i].uf -> graves23 -> obitos23...
+    //op.alguma coisa
+    //
+    fpclose(arq);
+}
 //void exibirDados(); -> descricao no arquivo dadosDengue.h
 
 int pegarDadosDeReg(int reg, char *caminho){
