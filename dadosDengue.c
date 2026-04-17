@@ -26,24 +26,30 @@ void lerDados(dadosDengue *tabelaRegiao, char *filepath, int qntUF){
         n++;
     }
 
-    fpclose(fp);
+    fclose(fp);
 }
-void escreverDados(dadosDengue *tabelaReg, tipoEscolha op){ //-> descricao no arquivo dadosDengue.h
+void escreverDados(dadosDengue *tabelaReg, tipoEscolha op, int qntUF){ //-> descricao no arquivo dadosDengue.h
     FILE *arq = fopen("dadosOrdenados.txt", "w");
     int i;
+
+    fprintf(arq, "Regiao: %s", tabelaReg[op.reg].regiao);
+
     for(i=0 ; i<qntUF ; i++){
         //No tipo que forem strings, passar o op escolhido pelo usuario no op.tipo
-        fprintf(arq, tabelaReg[op.reg].regiao);
-        (char *)25
+        fprintf(arq, " | UF: %s | Graves 23: %d | Graves 24: %d | Obitos 23: %d | Obitos 24: %d | DifGraves: %d | DifObitos: %d\n",
+         tabelaReg[i].UF, tabelaReg[i].graves23, tabelaReg[i].graves24,
+         tabelaReg[i].obitos23, tabelaReg[i].obitos24,
+         tabelaReg[i].difGraves, tabelaReg[i].difObitos);
+        //(char *)25 <-> cast
     }
     //fprintf aqui -> abrir o fopen do txt vazio
     //tabelaReg[i].uf -> graves23 -> obitos23...
-    //op.alguma coisa
-    //
-    fpclose(arq);
+    fclose(arq);
 }
-//void exibirDados(); -> descricao no arquivo dadosDengue.h
+/*void exibirDados(dadosDengue *tabelaReg, tipoEscolha op, int qntUF){ //-> descricao no arquivo dadosDengue.h
 
+
+}*/
 int pegarDadosDeReg(int reg, char *caminho){
     const int ufRegiao[]= { 4, 9, 7, 4, 3 };
     char const caminhoPt2[15][5]= { "dengueCentroOeste", "dengueNordeste", "dengueNorte", "dengueSudeste", "dengueSul" };
