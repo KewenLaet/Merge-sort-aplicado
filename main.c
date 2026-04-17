@@ -31,9 +31,11 @@ int main (void){
             "\n[3] Norte"
             "\n[4] Sudeste"
             "\n[5] Sul\n- ");
+        scanf("%d", &op.reg);
     } while(op.reg < 1 || op.reg > 5);
     
     op.qntUF = pegarDadosDeReg(op.reg, op.path);
+    strcpy(op.finalPath, "dadosOrdenados.txt");
 
     tabelaRegiao = (dadosDengue *) calloc(op.qntUF, sizeof(dadosDengue));
 
@@ -58,17 +60,16 @@ int main (void){
         printf("\nComo sera ordenado?");
         printf("\n[1] Crescente"
                 "\n[2] Decrescente\n- ");
+        scanf("%d", &op.modo);
     } while(op.modo < 1 || op.modo > 2);
 
     if (op.tipo == 1){ 
-        escolhaOrdenarChar(tabelaRegiao, tipoEscolha op);
+        //escolhaOrdenarChar(tabelaRegiao, tipoEscolha op);
     }
     else {
         escolhaOrdenarInt(tabelaRegiao, op);
     }
 
-    //exibir a tabela ordenada
-        
     // lembrar de liberar memoria
     free(tabelaRegiao);
 
