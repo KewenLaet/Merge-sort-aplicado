@@ -27,7 +27,7 @@ void lerDados(dadosDengue *tabelaRegiao, char *filepath, int qntUF){
 
     fclose(fp);
 }
-void escreverDados(dadosDengue *tabelaReg, tipoEscolha op, int qntUF){ //-> descricao no arquivo dadosDengue.h
+void escreverDados(dadosDengue *tabelaReg, int qntUF){ //-> descricao no arquivo dadosDengue.h
     FILE *arq = fopen("dadosOrdenados.txt", "w");
     int i;
 
