@@ -24,7 +24,11 @@ dengue.txt
 int main (void){
     tipoEscolha op;
 
-    dadosDengue *tabelaRegiao;
+    dadosGerais *dados = (dadosGerais *) malloc(sizeof(dadosGerais));
+    if (dados == NULL){
+        printf("\nFalha na alocacao de memoria.");
+        return 1;
+    }
 
     do{
         printf("\nQual regiao gostaria de ordenar?");
@@ -39,9 +43,9 @@ int main (void){
     op.qntUF = pegarDadosDeReg(op.reg, op.path);
     strcpy(op.finalPath, "dadosOrdenados.txt");
 
-    tabelaRegiao = (dadosDengue *) calloc(op.qntUF, sizeof(dadosDengue));
+    dados->tabela = (dadosDengue *) calloc(op.qntUF, sizeof(dadosDengue));
 
-    if (tabelaRegiao == NULL){
+    if (dados->tabela == NULL){
         printf("\nFalha na alocacao de memoria.");
         return 1;
     }
@@ -65,20 +69,27 @@ int main (void){
         scanf("%d", &op.modo);
     } while(op.modo < 1 || op.modo > 2);
 
-    lerDados(tabelaRegiao, op.path, op.qntUF);
+    lerDados(dados->tabela, op.path, op.qntUF);
 
-    int vCopia[op.qntUF];
-    criarVetorCopia(tabelaRegiao, 0, op.qntUF - 1, op.tipo, vCopia);
-    mergeSort(tabelaRegiao, op, vCopia, 0, op.qntUF - 1);
+    dados->vCopia = (int *) calloc(op.qntUF, sizeof(int));
+    if (dados->vCopia == NULL){
+        printf("\nFalha na alocacao de memoria.");
+        return 1;
+    }
 
-    escreverDados(tabelaRegiao, op, op.qntUF);
+    criarVetorCopia(dados, 0, op.qntUF - 1, op.tipo);
+    mergeSort(dados, 0, op.qntUF - 1);
+
+    escreverDados(dados->tabela, op.qntUF);
 
     //exibirDados(eh so exibir, entao provavelmente so tabelaRegiao e tamanho deve dar, pelo menos no caso de exibir vetor));
     //pessoalmente acho melhor se voce exibir direto do arquivo, ja que dessa forma voce ja pega formatado da forma correta la tlg
     //decidido! exibe diretamente do arquivo (gato mandando joia)
 
     // lembrar de liberar memoria
-    free(tabelaRegiao);
+    free(dados->vCopia);
+    free(dados->tabela);
+    free(dados);
 
     printf("\n\nDigite Enter para sair...\n");
     while((getchar()) != '\n');
