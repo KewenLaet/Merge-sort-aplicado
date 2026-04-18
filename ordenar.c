@@ -5,43 +5,47 @@
 
 
 // subfuncoes (servem a uma outra funcao)
-void criarVetorCopia(dadosDengue *tabelaReg, int inicio, int fim, int tipo, int *vCopia){
+void criarVetorCopia(dadosGerais *dados, int inicio, int fim, int tipo){
     int *pnt, i;
     for (i = inicio; i <= fim; i++){
-        pnt = &tabelaReg[i].graves23 + (tipo-2);
-        vCopia[i] = *pnt;
+        pnt = &dados->tabela[i].graves23 + (tipo-2);
+        dados->vCopia[i] = *pnt;
     }
 }
-void combinar(dadosDengue *tabela, tipoEscolha op, int *vCopia, int inicio, int meio, int fim){
+void combinar(dadosGerais *dados, int inicio, int meio, int fim){
     int i = inicio;
     int j = meio+1;
     int k = 0;
     dadosDengue aux[fim - inicio + 1];
     // inicio = 0 | meio = 1 | fim = 3
     while(i <= meio && j <= fim){
-        if (especificCompare(op, tabela, vCopia, i, j)){
-            aux[k++] = tabela[i++];
+        if (especificCompare(dados, i, j)){
+            aux[k++] = dados->tabela[i++];
         }
         else {
-            aux[k++] = tabela[j++];
+            aux[k++] = dados->tabela[j++];
         }
     }
         
     while(i <= meio){
-        aux[k++] = tabela[i++];
+        aux[k++] = dados->tabela[i++];
     }
     while(j <= fim){
-        aux[k++] = tabela[j++];
+        aux[k++] = dados->tabela[j++];
     }
 
     for (i = inicio, k = 0; i <= fim; i++, k++){
-        tabela[i] = aux[k];
+        dados->tabela[i] = aux[k];
     }
-    if (op.tipo > 1){
-        criarVetorCopia(tabela, inicio, fim, op.tipo, vCopia);
+    if (dados->op.tipo > 1){
+        criarVetorCopia(dados, inicio, fim, dados->op.tipo);
     }
 }
-int especificCompare(tipoEscolha op, dadosDengue *tabela, int *vCopia, int i, int j){
+int especificCompare(dadosGerais *dados, int i, int j){
+    tipoEscolha op = dados->op;
+    dadosDengue *tabela = dados->tabela;
+    int *vCopia = dados->vCopia;
+
     if (op.modo == 1){
         if (op.tipo == 1){
             return (strcmp(tabela[i].UF, tabela[j].UF) < 0) ? 1: 0;
@@ -61,11 +65,11 @@ int especificCompare(tipoEscolha op, dadosDengue *tabela, int *vCopia, int i, in
 }
 
 // Funcoes principais
-void mergeSort(dadosDengue *tabela, tipoEscolha op, int *vCopia, int inicio, int fim){
+void mergeSort(dadosGerais *dados, int inicio, int fim){
     if (inicio < fim){
         int meio = inicio + (fim - inicio)/2;
-        mergeSort(tabela, op, vCopia, inicio, meio);
-        mergeSort(tabela, op, vCopia, meio+1, fim);
-        combinar(tabela, op, vCopia, inicio, meio, fim);
+        mergeSort(dados, inicio, meio);
+        mergeSort(dados, meio+1, fim);
+        combinar(dados, inicio, meio, fim);
     }
 }
