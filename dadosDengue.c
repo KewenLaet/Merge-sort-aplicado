@@ -11,7 +11,7 @@ void lerDados(dadosDengue *tabelaRegiao, char *filepath, int qntUF){
     }
 
     int n = 0, Gr23, Ob23, Gr24, Ob24, DIFF_Gr, DIFF_Ob;
-    char reg[15], UF[3];
+    char UF[3];
 
     while(fscanf(fp, "%[^;];%d;%d;%d;%d;%d;%d%*c", UF, &Gr23, &Ob23, &Gr24, &Ob24, &DIFF_Gr, &DIFF_Ob) == 7 && n < qntUF){
         strncpy(tabelaRegiao[n].UF, UF, 2);
