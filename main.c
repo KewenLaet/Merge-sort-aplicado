@@ -71,7 +71,7 @@ int main (void){
     criarVetorCopia(tabelaRegiao, 0, op.qntUF - 1, op.tipo, vCopia);
     mergeSort(tabelaRegiao, op, vCopia, 0, op.qntUF - 1);
 
-    escreverDados(tabelaRegiao, op, op.qntUF);
+    escreverDados(tabelaRegiao, op.qntUF);
 
     //exibirDados(eh so exibir, entao provavelmente so tabelaRegiao e tamanho deve dar, pelo menos no caso de exibir vetor));
     //pessoalmente acho melhor se voce exibir direto do arquivo, ja que dessa forma voce ja pega formatado da forma correta la tlg
