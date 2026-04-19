@@ -7,6 +7,7 @@
 // subfuncoes (servem a uma outra funcao)
 void criarVetorCopia(dadosGerais *dados, int inicio, int fim, int tipo){
     int *pnt, i;
+    if(tipo == 1) return;
     for (i = inicio; i <= fim; i++){
         pnt = &dados->tabela[i].graves23 + (tipo-2);
         dados->vCopia[i] = *pnt;
