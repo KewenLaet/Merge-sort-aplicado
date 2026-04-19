@@ -29,7 +29,7 @@ typedef struct dadosGerais{
 
 void lerDados(dadosGerais *dados, char *filepath, int qntUF);
 void escreverDados(dadosGerais *dados, int qntUF); //-> escrever os dados do vetor de volta no arquivo dadosOrdenados.txt
-//void exibirDados(dadosDengue *tabelaReg, tipoEscolha op, int qntUF); //-> pode ser feito lendo o proprio vetor struct ou lendo o arquivo diretamente
+void exibirDados(dadosDengue *dados, int qntUF); //-> pode ser feito lendo o proprio vetor struct ou lendo o arquivo diretamente
 int pegarDadosDeReg(int reg, char *caminho);
 
 
