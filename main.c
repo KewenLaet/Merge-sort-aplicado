@@ -1,26 +1,9 @@
-/*
-O programa deve permitir:
-- Ler os dados do arquivo.
-- Escolher o tipo de ordenacao.
-    UF alfabetica;
-    Casos graves;
-    Obitos;
-    Diferenca(2023-2024);
-- Aplicar Merge sort.
-- Exibir os dados ordenados.
-Objetivo final:
-- Filtra por regiao para ordenar.
-- Salvar resultados ordenados em arquivos separados.
-- Criterio de ordenacao:
-    UF; Graves_2023; Graves_2024; Moretes_2023; Mortes_2024; DIFF_graves; DIFF_mortes.
-dengue.txt
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "dadosDengue.h"
 #include "ordenar.h"
-
+ 
 int main (void){
     tipoEscolha op;
 
@@ -29,7 +12,7 @@ int main (void){
         printf("\nFalha na alocacao de memoria.");
         return 1;
     }
-
+ 
     do{
         printf("\nQual regiao gostaria de ordenar?");
         printf("\n[1] Centro-Oeste"
@@ -39,17 +22,16 @@ int main (void){
             "\n[5] Sul\n- ");
         scanf("%d", &op.reg);
     } while(op.reg < 1 || op.reg > 5);
-    
+ 
     op.qntUF = pegarDadosDeReg(op.reg, op.path);
     strcpy(op.finalPath, "dadosOrdenados.txt");
-
+ 
     dados->tabela = (dadosDengue *) calloc(op.qntUF, sizeof(dadosDengue));
-
     if (dados->tabela == NULL){
         printf("\nFalha na alocacao de memoria.");
         return 1;
     }
-
+ 
     do{
         printf("\nEscolha o tipo de ordenacao: ");
         printf("\n[1] UF alfabetica"
@@ -61,36 +43,33 @@ int main (void){
                 "\n[7] Diferenca de obitos por dengue\n- ");
         scanf("%d", &op.tipo);
     } while(op.tipo < 1 || op.tipo > 7);
-    
+ 
     do{
         printf("\nComo sera ordenado?");
         printf("\n[1] Crescente"
                 "\n[2] Decrescente\n- ");
         scanf("%d", &op.modo);
     } while(op.modo < 1 || op.modo > 2);
-
-    lerDados(dados->tabela, op.path, op.qntUF);
-
+ 
+    dados->op = op;
+ 
+    lerDados(dados, op.path, op.qntUF);
+ 
     dados->vCopia = (int *) calloc(op.qntUF, sizeof(int));
     if (dados->vCopia == NULL){
         printf("\nFalha na alocacao de memoria.");
         return 1;
     }
-
+ 
     criarVetorCopia(dados, 0, op.qntUF - 1, op.tipo);
     mergeSort(dados, 0, op.qntUF - 1);
-
-    escreverDados(dados->tabela, op.qntUF);
-
-    //exibirDados(eh so exibir, entao provavelmente so tabelaRegiao e tamanho deve dar, pelo menos no caso de exibir vetor));
-    //pessoalmente acho melhor se voce exibir direto do arquivo, ja que dessa forma voce ja pega formatado da forma correta la tlg
-    //decidido! exibe diretamente do arquivo (gato mandando joia)
-
-    // lembrar de liberar memoria
+    escreverDados(dados, op.qntUF);
+    exibirDados(dados->tabela, op.qntUF);
+ 
     free(dados->vCopia);
     free(dados->tabela);
     free(dados);
-
+ 
     printf("\n\nDigite Enter para sair...\n");
     while((getchar()) != '\n');
     getchar();
