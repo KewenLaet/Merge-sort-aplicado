@@ -5,9 +5,8 @@
 #include "ordenar.h"
  
 int main (void){
-    tipoEscolha op;
-
     dadosGerais *dados = (dadosGerais *) malloc(sizeof(dadosGerais));
+
     if (dados == NULL){
         printf("\nFalha na alocacao de memoria.");
         return 1;
@@ -20,13 +19,12 @@ int main (void){
             "\n[3] Norte"
             "\n[4] Sudeste"
             "\n[5] Sul\n- ");
-        scanf("%d", &op.reg);
-    } while(op.reg < 1 || op.reg > 5);
+        scanf("%d", &dados->op.reg);
+    } while(dados->op.reg < 1 || dados->op.reg > 5);
  
-    op.qntUF = pegarDadosDeReg(op.reg, op.path);
-    strcpy(op.finalPath, "dadosOrdenados.txt");
+    dados->op.qntUF = pegarDadosDeReg(dados->op.reg, dados->op.path, dados->NomeReg);
  
-    dados->tabela = (dadosDengue *) calloc(op.qntUF, sizeof(dadosDengue));
+    dados->tabela = (dadosDengue *) calloc(dados->op.qntUF, sizeof(dadosDengue));
     if (dados->tabela == NULL){
         printf("\nFalha na alocacao de memoria.");
         return 1;
@@ -41,30 +39,28 @@ int main (void){
                 "\n[5] Obitos por dengue 2024"
                 "\n[6] Diferenca de casos graves"
                 "\n[7] Diferenca de obitos por dengue\n- ");
-        scanf("%d", &op.tipo);
-    } while(op.tipo < 1 || op.tipo > 7);
+        scanf("%d", &dados->op.tipo);
+    } while(dados->op.tipo < 1 || dados->op.tipo > 7);
  
     do{
         printf("\nComo sera ordenado?");
         printf("\n[1] Crescente"
                 "\n[2] Decrescente\n- ");
-        scanf("%d", &op.modo);
-    } while(op.modo < 1 || op.modo > 2);
+        scanf("%d", &dados->op.modo);
+    } while(dados->op.modo < 1 || dados->op.modo > 2);
  
-    dados->op = op;
+    lerDados(dados);
  
-    lerDados(dados, op.path, op.qntUF);
- 
-    dados->vCopia = (int *) calloc(op.qntUF, sizeof(int));
+    dados->vCopia = (int *) calloc(dados->op.qntUF, sizeof(int));
     if (dados->vCopia == NULL){
         printf("\nFalha na alocacao de memoria.");
         return 1;
     }
  
-    criarVetorCopia(dados, 0, op.qntUF - 1, op.tipo);
-    mergeSort(dados, 0, op.qntUF - 1);
-    escreverDados(dados, op.qntUF);
-    exibirDados(dados->tabela, op.qntUF);
+    criarVetorCopia(dados, 0, dados->op.qntUF - 1, dados->op.tipo);
+    mergeSort(dados, 0, dados->op.qntUF - 1);
+    escreverDados(dados);
+    exibirDados(dados);
  
     free(dados->vCopia);
     free(dados->tabela);
